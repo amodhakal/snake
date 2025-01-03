@@ -1,11 +1,10 @@
-import { BG_COLOR, BOARD_DIMENSION, BOARD_VIEW_MULTIPLYER } from "./constants";
 import "./style.css";
 
-// Create WebGL context and add a green background
 const canvas = document.querySelector("canvas") as HTMLCanvasElement;
-canvas.width = BOARD_DIMENSION.width * BOARD_VIEW_MULTIPLYER;
-canvas.height = BOARD_DIMENSION.height * BOARD_VIEW_MULTIPLYER;
+canvas.width = 20 * 50;
+canvas.height = 12 * 50;
+
 const gl = canvas.getContext("webgl");
 if (!gl) throw new Error("Couldn't create webgl context");
-gl.clearColor(...BG_COLOR);
+gl.clearColor(6 / 255, 62 / 255, 45 / 255, 1);
 gl.clear(gl.COLOR_BUFFER_BIT);
