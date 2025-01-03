@@ -1,4 +1,5 @@
 import { BG_COLOR } from "./constants";
+import "./style.css";
 
 // Create WebGL context and add a green background
 const canvas = document.querySelector("canvas") as HTMLCanvasElement;
