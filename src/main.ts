@@ -1,20 +1,38 @@
-import { AssetManager, exampleAsset } from "./AssetManager";
+import { Asset, AssetManager, originalAsset } from "./AssetManager";
 import { fragmentShaderString } from "./shaders/fragment";
 import { vertexShaderString } from "./shaders/vertex";
 import "./style.css";
 
+const WIDTH = 35;
+const HEIGHT = 16;
+
 // Create canvas
 const canvas = document.querySelector("canvas") as HTMLCanvasElement;
-canvas.width = 20 * 50;
-canvas.height = 12 * 50;
+canvas.width = WIDTH * 50;
+canvas.height = HEIGHT * 50;
 
 // Create webgl context
 const gl = canvas.getContext("webgl");
 if (!gl) throw new Error("Couldn't create webgl context");
 
-// Create an asset manager and add an asset
+// Create an asset manager and add the assets to create a grid
 new AssetManager(gl);
-AssetManager.addAsset(exampleAsset);
+
+const ROW_INCREASE = 0.102;
+const COL_INCREASE = 0.055;
+
+for (let row = 0; row < HEIGHT * ROW_INCREASE; row += ROW_INCREASE) {
+  for (let col = 0; col < WIDTH * COL_INCREASE; col += COL_INCREASE) {
+    const newAsset: Asset = {
+      vertices: originalAsset.vertices.map((vertice) => {
+        return [vertice[0] + col, vertice[1] + row, vertice[2]];
+      }),
+      triangles: originalAsset.triangles,
+      name: originalAsset.name,
+    };
+    AssetManager.addAsset(newAsset);
+  }
+}
 
 // Get the buffers and sizes from the asset manager
 const { verticeBuffer, triangleBuffer, size } = AssetManager.getBuffers();
