@@ -1,7 +1,15 @@
 type Vec3 = [number, number, number];
 
+export enum PieceType {
+  CELL,
+  APPLE,
+  MOUTH,
+  BODY,
+  TAIl,
+}
+
 export interface Asset {
-  name: string;
+  name: PieceType;
   vertices: Vec3[];
   triangles: Vec3[];
 }
@@ -13,11 +21,11 @@ export interface Buffers {
 }
 
 export const originalAsset: Asset = {
-  name: "cell",
+  name: PieceType.CELL,
   vertices: [
     [-0.933, -0.85, 0.0],
-    [-0.933, -.95, 0.0],
-    [-0.987, -.95, 0.0],
+    [-0.933, -0.95, 0.0],
+    [-0.987, -0.95, 0.0],
     [-0.987, -0.85, 0.0],
   ],
   triangles: [

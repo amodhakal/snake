@@ -1,3 +1,5 @@
+// TODO: Add colors based on the different enum types for a piece
+
 import { Asset, AssetManager, originalAsset } from "./AssetManager";
 import { fragmentShaderString } from "./shaders/fragment";
 import { vertexShaderString } from "./shaders/vertex";
