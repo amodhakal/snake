@@ -1,0 +1,10 @@
+#app {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  canvas {
+    padding: 1rem;
+    max-width: calc(100% - 2rem);
+  }
+}

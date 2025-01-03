@@ -1,1 +1,0 @@
-type Number4D = [ number, number, number, number ]
