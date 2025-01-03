@@ -1,6 +1,6 @@
 ## Snake 🐍
 
-A custom implementation of the classical game Snake, built with Typescript, Vite and WebGL. 
+A custom implementation of the classical game Snake, built with Typescript, Vite and WebGL. Check out the website by clicking [here](https://amodhakal.github.io/snake/).
 
 ### Build Instructions
 
