@@ -11,8 +11,6 @@ canvas.height = 12 * 50;
 // Create webgl context
 const gl = canvas.getContext("webgl");
 if (!gl) throw new Error("Couldn't create webgl context");
-gl.clearColor(6 / 255, 62 / 255, 45 / 255, 1);
-gl.clear(gl.COLOR_BUFFER_BIT);
 
 // Create an asset manager and add an asset
 new AssetManager(gl);
@@ -52,3 +50,15 @@ gl.useProgram(program);
 // Get attributes
 const aPosition = gl.getAttribLocation(program, "aPosition");
 gl.enableVertexAttribArray(aPosition);
+
+// Render assets
+gl.clearColor(6 / 255, 62 / 255, 45 / 255, 1);
+gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+// Bind vertices
+gl.bindBuffer(gl.ARRAY_BUFFER, verticeBuffer);
+gl.vertexAttribPointer(aPosition, 3, gl.FLOAT, false, 0, 0);
+
+// Bind triangles
+gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, triangleBuffer);
+gl.drawElements(gl.TRIANGLES, size, gl.UNSIGNED_SHORT, 0);
