@@ -17,3 +17,9 @@ Production:
         - Minimize magic numbers
     ☐ Add compile and build instructions to the README
         - Update the CMakeLists.txt to fetch raylib instead
+    ☐ Add testing
+
+Future:
+    ☐ Create an abstraction for a custom Game Engine
+        - Have its inner core call platform specific libraries like Vulkan, Metal, or OpenGL
+
