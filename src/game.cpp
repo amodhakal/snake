@@ -1,8 +1,12 @@
 #include "game.h"
+#include "assert.h"
 #include <iostream>
 #include <random>
+#include <string>
 
-Game::Game() {
+Game::Game()
+    : m_Fps(INITIAL_FPS), m_Score(INITIAL_SCORE),
+      m_Status(GameStatus::RUNNING) {
   for (int boardX = 0; boardX < BOARD_HEIGHT; boardX++) {
     for (int boardY = 0; boardY < BOARD_WIDTH; boardY++) {
       m_Board[boardX][boardY] = GamePiece::EMPTY;
@@ -20,21 +24,17 @@ Game::Game() {
   Game::createApple();
 }
 
-void Game::Draw() {
-  constexpr uint SPLIT = CELL_SIZE + CELL_DISTANCE;
-
-  for (int boardX = 0; boardX < BOARD_HEIGHT; boardX++) {
-    float posY = CELL_DISTANCE + boardX * SPLIT;
-
-    for (int boardY = 0; boardY < BOARD_WIDTH; boardY++) {
-      float posX = CELL_DISTANCE + boardY * SPLIT;
-      float CELL_SIZE_F = static_cast<float>(CELL_SIZE);
-      Rectangle rectangle = {posX, posY, CELL_SIZE_F, CELL_SIZE_F};
-
-      GamePiece piece = m_Board[boardX][boardY];
-      CLITERAL(Color) color = getPieceColor(piece);
-      DrawRectangleRounded(rectangle, 0.8f, 4, color);
-    }
+void Game::Run() {
+  switch (m_Status) {
+  case GameStatus::RUNNING:
+    return handleRunning();
+  case GameStatus::DEFEAT:
+    return handleDefeat();
+  case GameStatus::DEFEAT_DISPLAYED:
+    return handleDefeatDisplayed();
+    break;
+  default:
+    assert("[Game.Run] Received an invalid game status");
   }
 }
 
@@ -47,13 +47,13 @@ CLITERAL(Color) Game::getPieceColor(const GamePiece &piece) {
   case GamePiece::APPLE:
     return RED;
   default:
-    static_assert("[Game.getPieceColor] Received an invalid piece");
+    assert("[Game.getPieceColor] Received an invalid piece");
   }
 
   return BLACK;
 }
 
-void Game::UpdateSnake() {
+void Game::UpdateGame() {
   // Get values
   Vector2 movement = getMovementVector(m_SnakeDirection);
   Vector2 headPosition = m_SnakePositions.front();
@@ -99,15 +99,11 @@ Vector2 Game::getMovementVector(const MovementDirection &direction) {
   case MovementDirection::RIGHT:
     return {1, 0};
   default:
-    static_assert("[Game.getMovementVector] Received an invalid movement");
+    assert("[Game.getMovementVector] Received an invalid movement");
   }
 }
 
-void Game::endGame() {
-  // TODO: Handle ending
-  std::cout << "You died" << std::endl;
-  exit(-1);
-}
+void Game::endGame() { m_Status = GameStatus::DEFEAT; }
 
 void Game::HandleKeyPress() {
   int keyResult = GetKeyPressed();
@@ -174,8 +170,79 @@ void Game::createApple() {
 }
 
 void Game::eatApple(const Vector2 &tailPosition) {
+  m_Fps += 1;
+  SetTargetFPS(m_Fps);
+
+  m_Score += INITIAL_SCORE;
+
   m_SnakePositions.push_back(tailPosition);
   m_Board[(uint)tailPosition.y][(uint)tailPosition.x] = GamePiece::SNAKE;
 
   createApple();
+}
+
+float Game::GetFps() { return m_Fps; }
+GameStatus Game::GetStatus() { return m_Status; }
+uint Game::GetScore() { return m_Score; }
+
+void Game::handleRunning() {
+  BeginDrawing();
+  ClearBackground(DARKGRAY);
+
+  constexpr uint SPLIT = CELL_SIZE + CELL_DISTANCE;
+
+  std::string timeString = std::format("{:.2f}", GetTime());
+  std::string timeText = "Time: ";
+  timeText += timeString;
+
+  std::string scoreString = std::format("{}", m_Score);
+  std::string scoreText = "Score: ";
+  scoreText += scoreString;
+
+  DrawText(timeText.c_str(), CELL_DISTANCE * 4, CELL_DISTANCE * 4, 24, WHITE);
+  DrawText(scoreText.c_str(), CELL_DISTANCE * 4, CELL_DISTANCE * 16, 24, WHITE);
+
+  for (int boardX = 0; boardX < BOARD_HEIGHT; boardX++) {
+    float posY = CELL_DISTANCE + TEXT_SPACE + boardX * SPLIT;
+
+    for (int boardY = 0; boardY < BOARD_WIDTH; boardY++) {
+      float posX = CELL_DISTANCE + boardY * SPLIT;
+      float CELL_SIZE_F = static_cast<float>(CELL_SIZE);
+      Rectangle rectangle = {posX, posY, CELL_SIZE_F, CELL_SIZE_F};
+
+      GamePiece piece = m_Board[boardX][boardY];
+      CLITERAL(Color) color = getPieceColor(piece);
+      DrawRectangleRounded(rectangle, 0.8f, 4, color);
+    }
+  }
+
+  EndDrawing();
+  HandleKeyPress();
+  UpdateGame();
+}
+
+void Game::handleDefeat() {
+  std::string timeString = std::format("{:.2f}", GetTime());
+  std::string timeText = "Time: ";
+  timeText += timeString;
+
+  std::string scoreString = std::format("{}", m_Score);
+  std::string scoreText = "Score: ";
+  scoreText += scoreString;
+
+  BeginDrawing();
+  ClearBackground(BLACK);
+  DrawText(timeText.c_str(), SCR_WIDTH / 4, SCR_HEIGHT / 3 - 24, 48, RED);
+  DrawText(scoreText.c_str(), SCR_WIDTH / 4, SCR_HEIGHT / 3 + 24, 48, RED);
+
+  EndDrawing();
+
+  m_DefeatDisplayedTime = GetTime();
+  m_Status = GameStatus::DEFEAT_DISPLAYED;
+}
+
+void Game::handleDefeatDisplayed() {
+  if (m_DefeatDisplayedTime + 3 < GetTime()) {
+    exit(0);
+  }
 }

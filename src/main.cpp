@@ -1,20 +1,17 @@
 #include <raylib.h>
 
+#include "assert.h"
 #include "game.h"
+#include <iostream>
 
 int main() {
   Game game;
 
   InitWindow(game.SCR_WIDTH, game.SCR_HEIGHT, "Snake");
-  SetTargetFPS(game.FPS);
+  SetTargetFPS(game.GetFps());
 
   while (!WindowShouldClose()) {
-    BeginDrawing();
-    ClearBackground(DARKGRAY);
-    game.Draw();
-    EndDrawing();
-    game.UpdateSnake();
-    game.HandleKeyPress();
+   game.Run();
   }
 
   return 0;

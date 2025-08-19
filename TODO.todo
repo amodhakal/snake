@@ -1,10 +1,19 @@
-✔ Setup a single length snake for now with the correct movements @started(25-08-18 23:03) @done(25-08-19 00:34) @lasted(1h31m36s)
-    - Can't go opposite of current
-    - Close program for now if snake collides outside
-✔ Setup apple in red to spawn whenever there isn't one @started(25-08-19 12:21) @done(25-08-19 12:32) @lasted(11m37s)
-    - Once collision with snake, move to another position not occupied by the snake
-✔ Grow the snake when an apple is consumed @started(25-08-19 12:41) @done(25-08-19 12:52) @lasted(11m11s)
-    - Close program for now if the snake collides with itself
-☐ Display the time and the score
-☐ Move to another every 500 second, which will slowly become faster.
-☐ Handle the dying logic and the endings
+Game:
+    ✔ Setup a single length snake for now with the correct movements @started(25-08-18 23:03) @done(25-08-19 00:34) @lasted(1h31m36s)
+        - Can't go opposite of current
+        - Close program for now if snake collides outside
+    ✔ Setup apple in red to spawn whenever there isn't one @started(25-08-19 12:21) @done(25-08-19 12:32) @lasted(11m37s)
+        - Once collision with snake, move to another position not occupied by the snake
+    ✔ Grow the snake when an apple is consumed @started(25-08-19 12:41) @done(25-08-19 12:52) @lasted(11m11s)
+        - Close program for now if the snake collides with itself
+    ✔ Move to another every 500 second, which will slowly become faster. @started(25-08-19 12:54) @done(25-08-19 12:58) @lasted(4m36s)
+    ✔ Display the time and the score @started(25-08-19 12:58) @done(25-08-19 13:43) @lasted(45m22s)
+    ✔ Handle the dying logic and the endings @started(25-08-19 13:02) @done(25-08-19 13:43) @lasted(41m35s)
+
+Production:
+    ☐ Clean up the code
+        - Move public things to private as much as possible
+        - Seperate items into further classes
+        - Minimize magic numbers
+    ☐ Add compile and build instructions to the README
+        - Update the CMakeLists.txt to fetch raylib instead
