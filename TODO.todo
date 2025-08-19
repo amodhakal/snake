@@ -11,11 +11,11 @@ Game:
     ✔ Handle the dying logic and the endings @started(25-08-19 13:02) @done(25-08-19 13:43) @lasted(41m35s)
 
 Production:
-    ☐ Clean up the code
+    ✔ Clean up the code @started(25-08-19 16:10) @done(25-08-19 16:14) @lasted(4m43s)
         - Move public things to private as much as possible
         - Seperate items into further classes
         - Minimize magic numbers
-    ☐ Add compile and build instructions to the README
+    ✔ Add compile and build instructions to the README @started(25-08-19 16:14) @done(25-08-19 17:00) @lasted(46m33s)
         - Update the CMakeLists.txt to fetch raylib instead
     ☐ Add testing
 

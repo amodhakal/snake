@@ -1,5 +1,4 @@
 #include <raylib.h>
-
 #include "assert.h"
 #include "game.h"
 #include <iostream>

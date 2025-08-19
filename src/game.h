@@ -13,15 +13,10 @@ class Game {
 public:
   Game();
   void Run();
-  void UpdateGame();
-  void HandleKeyPress();
-  GameStatus GetStatus();
   float GetFps();
-  uint GetScore();
 
   constexpr static float INITIAL_FPS = 10;
   constexpr static uint INITIAL_SCORE = 100;
-
   constexpr static uint CELL_SIZE = 30;
   constexpr static uint CELL_DISTANCE = 2;
   constexpr static uint BOARD_WIDTH = 25;
@@ -45,11 +40,12 @@ private:
 
   CLITERAL(Color) getPieceColor(const GamePiece &piece);
   Vector2 getMovementVector(const MovementDirection &direction);
-  void endGame();
-  void createApple();
   void eatApple(const Vector2 &tailPosition);
-
+  void createApple();
+  void updateGame();
   void handleRunning();
   void handleDefeat();
   void handleDefeatDisplayed();
+  void handleKeyPress();
+  void endGame();
 };

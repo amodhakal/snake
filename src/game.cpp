@@ -53,7 +53,7 @@ CLITERAL(Color) Game::getPieceColor(const GamePiece &piece) {
   return BLACK;
 }
 
-void Game::UpdateGame() {
+void Game::updateGame() {
   // Get values
   Vector2 movement = getMovementVector(m_SnakeDirection);
   Vector2 headPosition = m_SnakePositions.front();
@@ -105,7 +105,7 @@ Vector2 Game::getMovementVector(const MovementDirection &direction) {
 
 void Game::endGame() { m_Status = GameStatus::DEFEAT; }
 
-void Game::HandleKeyPress() {
+void Game::handleKeyPress() {
   int keyResult = GetKeyPressed();
   if (keyResult == 0) {
     return;
@@ -182,8 +182,6 @@ void Game::eatApple(const Vector2 &tailPosition) {
 }
 
 float Game::GetFps() { return m_Fps; }
-GameStatus Game::GetStatus() { return m_Status; }
-uint Game::GetScore() { return m_Score; }
 
 void Game::handleRunning() {
   BeginDrawing();
@@ -217,8 +215,8 @@ void Game::handleRunning() {
   }
 
   EndDrawing();
-  HandleKeyPress();
-  UpdateGame();
+  handleKeyPress();
+  updateGame();
 }
 
 void Game::handleDefeat() {
