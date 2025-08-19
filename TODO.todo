@@ -2,7 +2,7 @@
     - Can't go opposite of current
     - Move to another every 500 second, which will slowly become faster.
     - Close program for now if snake collides outside
-☐ Setup apple in red to spawn whenever there isn't one
+✔ Setup apple in red to spawn whenever there isn't one @started(25-08-19 12:21) @done(25-08-19 12:32) @lasted(11m37s)
     - Once collision with snake, move to another position not occupied by the snake
 ☐ Grow the snake when an apple is consumed
     - Close program for now if the snake collides with itself

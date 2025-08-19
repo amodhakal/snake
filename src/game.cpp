@@ -17,6 +17,7 @@ Game::Game() {
   m_Board[Height][Width] = GamePiece::SNAKE;
 
   m_SnakeDirection = MovementDirection::UP;
+  Game::createApple();
 }
 
 void Game::Draw() {
@@ -43,6 +44,8 @@ CLITERAL(Color) Game::getPieceColor(const GamePiece &piece) {
     return BLACK;
   case GamePiece::SNAKE:
     return GREEN;
+  case GamePiece::APPLE:
+    return RED;
   default:
     static_assert("[Game.getPieceColor] Received an invalid piece");
   }
@@ -69,6 +72,11 @@ void Game::UpdateSnake() {
       GamePiece::SNAKE;
   m_Board[(uint)previousTail.y][(uint)previousTail.x] =
       GamePiece::EMPTY; // FIXME: Use queues for multi length snake
+
+  if (m_SnakeHeadPosition.x == m_ApplePosition.x &&
+      m_SnakeHeadPosition.y == m_ApplePosition.y) {
+    eatApple();
+  }
 }
 
 Vector2 Game::getMovementVector(const MovementDirection &direction) {
@@ -143,3 +151,17 @@ handleRight:
                          : MovementDirection::RIGHT;
   return;
 }
+
+void Game::createApple() {
+  uint chosenWidth = rand() % BOARD_WIDTH;
+  uint chosenHeight = rand() % BOARD_HEIGHT;
+
+  if (m_Board[chosenHeight][chosenWidth] != GamePiece::EMPTY) {
+    return createApple();
+  }
+
+  m_Board[chosenHeight][chosenWidth] = GamePiece::APPLE;
+  m_ApplePosition = {(float)chosenWidth, (float)chosenHeight};
+}
+
+void Game::eatApple() { createApple(); }

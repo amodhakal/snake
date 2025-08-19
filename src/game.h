@@ -28,8 +28,11 @@ private:
   GamePiece m_Board[BOARD_HEIGHT][BOARD_WIDTH];
   Vector2 m_SnakeHeadPosition;
   Vector2 m_SnakeTailPosition;
+  Vector2 m_ApplePosition;
 
   CLITERAL(Color) getPieceColor(const GamePiece &piece);
   Vector2 getMovementVector(const MovementDirection &direction);
   void endGame();
+  void createApple();
+  void eatApple();
 };
