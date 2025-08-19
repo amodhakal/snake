@@ -2,14 +2,18 @@
 #include <raylib.h>
 #include <sys/types.h>
 
-enum class GamePiece { EMPTY };
+enum class GamePiece { EMPTY, SNAKE, APPLE };
+
+enum class MovementDirection { UP, DOWN, LEFT, RIGHT };
 
 class Game {
 public:
   Game();
   void Draw();
+  void UpdateSnake();
+  void HandleKeyPress();
 
-  constexpr static uint FPS = 60;
+  constexpr static uint FPS = 10;
   constexpr static uint CELL_SIZE = 30;
   constexpr static uint CELL_DISTANCE = 2;
   constexpr static uint BOARD_WIDTH = 25;
@@ -20,7 +24,12 @@ public:
       (CELL_SIZE * BOARD_HEIGHT) + (CELL_DISTANCE * (BOARD_HEIGHT + 1));
 
 private:
+  MovementDirection m_SnakeDirection;
   GamePiece m_Board[BOARD_HEIGHT][BOARD_WIDTH];
+  Vector2 m_SnakeHeadPosition;
+  Vector2 m_SnakeTailPosition;
 
   CLITERAL(Color) getPieceColor(const GamePiece &piece);
+  Vector2 getMovementVector(const MovementDirection &direction);
+  void endGame();
 };

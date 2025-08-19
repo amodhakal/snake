@@ -13,6 +13,8 @@ int main() {
     ClearBackground(DARKGRAY);
     game.Draw();
     EndDrawing();
+    game.UpdateSnake();
+    game.HandleKeyPress();
   }
 
   return 0;
