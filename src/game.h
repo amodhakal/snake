@@ -1,6 +1,7 @@
 #pragma once
 #include <raylib.h>
 #include <sys/types.h>
+#include <vector>
 
 enum class GamePiece { EMPTY, SNAKE, APPLE };
 
@@ -26,13 +27,12 @@ public:
 private:
   MovementDirection m_SnakeDirection;
   GamePiece m_Board[BOARD_HEIGHT][BOARD_WIDTH];
-  Vector2 m_SnakeHeadPosition;
-  Vector2 m_SnakeTailPosition;
+  std::vector<Vector2> m_SnakePositions;
   Vector2 m_ApplePosition;
 
   CLITERAL(Color) getPieceColor(const GamePiece &piece);
   Vector2 getMovementVector(const MovementDirection &direction);
   void endGame();
   void createApple();
-  void eatApple();
+  void eatApple(const Vector2 &tailPosition);
 };

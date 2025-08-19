@@ -9,12 +9,12 @@ Game::Game() {
     }
   }
 
-  int Width = BOARD_WIDTH / 2;
-  int Height = BOARD_HEIGHT / 2;
+  int width = BOARD_WIDTH / 2;
+  int height = BOARD_HEIGHT / 2;
 
-  m_SnakeHeadPosition = {(float)Width, (float)Height};
-  m_SnakeTailPosition = {(float)Width, (float)Height};
-  m_Board[Height][Width] = GamePiece::SNAKE;
+  m_SnakePositions.insert(m_SnakePositions.begin(),
+                          {(float)width, (float)height});
+  m_Board[height][width] = GamePiece::SNAKE;
 
   m_SnakeDirection = MovementDirection::UP;
   Game::createApple();
@@ -54,29 +54,38 @@ CLITERAL(Color) Game::getPieceColor(const GamePiece &piece) {
 }
 
 void Game::UpdateSnake() {
-  Vector2 previousHead = m_SnakeHeadPosition;
-  Vector2 previousTail = m_SnakeTailPosition;
+  // Get values
   Vector2 movement = getMovementVector(m_SnakeDirection);
+  Vector2 headPosition = m_SnakePositions.front();
+  Vector2 tailPosition = m_SnakePositions.back();
 
-  m_SnakeHeadPosition = {previousHead.x + movement.x,
-                         previousHead.y + movement.y};
-  m_SnakeTailPosition = {previousTail.x + movement.x,
-                         previousTail.y + movement.y};
+  // Remove tail
+  m_SnakePositions.pop_back();
+  m_Board[(uint)tailPosition.y][(uint)tailPosition.x] = GamePiece::EMPTY;
 
-  if (m_SnakeHeadPosition.x < 0 || m_SnakeHeadPosition.x >= BOARD_WIDTH ||
-      m_SnakeHeadPosition.y < 0 || m_SnakeHeadPosition.y >= BOARD_HEIGHT) {
+  Vector2 newHead = {movement.x + headPosition.x, movement.y + headPosition.y};
+
+  // Check for border touching
+  if (newHead.x < 0 || newHead.x >= BOARD_WIDTH || newHead.y < 0 ||
+      newHead.y >= BOARD_HEIGHT) {
     endGame();
   }
 
-  m_Board[(uint)m_SnakeHeadPosition.y][(uint)m_SnakeHeadPosition.x] =
-      GamePiece::SNAKE;
-  m_Board[(uint)previousTail.y][(uint)previousTail.x] =
-      GamePiece::EMPTY; // FIXME: Use queues for multi length snake
-
-  if (m_SnakeHeadPosition.x == m_ApplePosition.x &&
-      m_SnakeHeadPosition.y == m_ApplePosition.y) {
-    eatApple();
+  // Check for eating itself
+  for (const Vector2 &position : m_SnakePositions) {
+    if (position.x == newHead.x && position.y == newHead.y) {
+      endGame();
+    }
   }
+
+  // Check for apple
+  if (newHead.x == m_ApplePosition.x && newHead.y == m_ApplePosition.y) {
+    eatApple(tailPosition);
+  }
+
+  // Add head
+  m_SnakePositions.insert(m_SnakePositions.begin(), newHead);
+  m_Board[(uint)newHead.y][(uint)newHead.x] = GamePiece::SNAKE;
 }
 
 Vector2 Game::getMovementVector(const MovementDirection &direction) {
@@ -164,4 +173,9 @@ void Game::createApple() {
   m_ApplePosition = {(float)chosenWidth, (float)chosenHeight};
 }
 
-void Game::eatApple() { createApple(); }
+void Game::eatApple(const Vector2 &tailPosition) {
+  m_SnakePositions.push_back(tailPosition);
+  m_Board[(uint)tailPosition.y][(uint)tailPosition.x] = GamePiece::SNAKE;
+
+  createApple();
+}
