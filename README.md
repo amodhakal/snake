@@ -5,12 +5,17 @@ This is a recreation of the classic snake game. Your goal as a snake is to eat a
 ## Build Instructions
 
 This project uses CMake. Run the following command:
+
 ```
 mkdir build && cd build && cmake .. && make snake
 ```
 
+It currently only works on MacOS. Make sure to install cmake and raylib through homebrew.
+
 ## Run Instructions
+
 Once the project is built, from the **build** folder, run the following command:
+
 ```
 ./snake
 ```
