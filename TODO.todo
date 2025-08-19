@@ -1,0 +1,10 @@
+☐ Setup a single length snake for now with the correct movements
+    - Can't go opposite of current
+    - Move to another every 500 second, which will slowly become faster.
+    - Close program for now if snake collides outside
+☐ Setup apple in red to spawn whenever there isn't one
+    - Once collision with snake, move to another position not occupied by the snake
+☐ Grow the snake when an apple is consumed
+    - Close program for now if the snake collides with itself
+☐ Display the time and the score
+☐ Handle the dying logic and the endings
