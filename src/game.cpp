@@ -109,51 +109,50 @@ void Game::handleKeyPress() {
   if (keyResult == 0) {
     return;
   }
-
   switch (keyResult) {
   case KEY_W:
-    goto handleUp;
-  case KEY_A:
-    goto handleLeft;
-  case KEY_S:
-    goto handleDown;
-  case KEY_D:
-    goto handleRight;
   case KEY_UP:
-    goto handleUp;
+    handleUpPress();
+    break;
+  case KEY_A:
   case KEY_LEFT:
-    goto handleLeft;
+    handleLeftPress();
+    break;
+  case KEY_S:
   case KEY_DOWN:
-    goto handleDown;
+    handleDownPress();
+    break;
+  case KEY_D:
   case KEY_RIGHT:
-    goto handleRight;
+    handleRightPress();
+    break;
   default:
     return;
   }
+}
 
-handleUp:
+void Game::handleUpPress() {
   m_SnakeDirection = m_SnakeDirection == MovementDirection::DOWN
                          ? m_SnakeDirection
                          : MovementDirection::UP;
-  return;
+}
 
-handleLeft:
+void Game::handleLeftPress() {
   m_SnakeDirection = m_SnakeDirection == MovementDirection::RIGHT
                          ? m_SnakeDirection
                          : MovementDirection::LEFT;
-  return;
+}
 
-handleDown:
+void Game::handleDownPress() {
   m_SnakeDirection = m_SnakeDirection == MovementDirection::UP
                          ? m_SnakeDirection
                          : MovementDirection::DOWN;
-  return;
+}
 
-handleRight:
+void Game::handleRightPress() {
   m_SnakeDirection = m_SnakeDirection == MovementDirection::LEFT
                          ? m_SnakeDirection
                          : MovementDirection::RIGHT;
-  return;
 }
 
 void Game::createApple() {

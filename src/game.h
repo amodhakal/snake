@@ -47,5 +47,9 @@ private:
   void handleDefeat();
   void handleDefeatDisplayed();
   void handleKeyPress();
+  void handleUpPress();
+  void handleLeftPress();
+  void handleDownPress();
+  void handleRightPress();
   void endGame();
 };
