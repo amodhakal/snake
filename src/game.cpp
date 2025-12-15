@@ -1,7 +1,6 @@
 #include "game.h"
 #include "assert.h"
-#include <iostream>
-#include <random>
+#include <format>
 #include <string>
 
 Game::Game()
@@ -47,7 +46,7 @@ CLITERAL(Color) Game::getPieceColor(const GamePiece &piece) {
   case GamePiece::APPLE:
     return RED;
   default:
-    assert("[Game.getPieceColor] Received an invalid piece");
+    assert(false && "[Game.getPieceColor] Received an invalid piece");
   }
 
   return BLACK;
@@ -68,13 +67,13 @@ void Game::updateGame() {
   // Check for border touching
   if (newHead.x < 0 || newHead.x >= BOARD_WIDTH || newHead.y < 0 ||
       newHead.y >= BOARD_HEIGHT) {
-    endGame();
+    return endGame();
   }
 
   // Check for eating itself
   for (const Vector2 &position : m_SnakePositions) {
     if (position.x == newHead.x && position.y == newHead.y) {
-      endGame();
+      return endGame();
     }
   }
 
